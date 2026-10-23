@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OT Hours Check: Audit Overtime, Breaks and Rounding From a Timesheet CSV</title>
+<meta name="description" content="Upload a timesheet CSV and audit regular vs overtime hours, missed breaks and rounding, per employee per week, before payroll runs.">
+<meta name="keywords" content="overtime calculator spreadsheet batch, timesheet audit tool, check overtime hours from CSV, payroll hours checker">
+<meta name="author" content="Amir Hussain">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aamirtechs.github.io/ot-hours-check/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0b1f3a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OT Hours Check: Audit Overtime, Breaks and Rounding From a Timesheet CSV">
+<meta property="og:description" content="Upload a timesheet CSV and audit regular vs overtime hours, missed breaks and rounding, per employee per week, before payroll runs.">
+<meta property="og:url" content="https://aamirtechs.github.io/ot-hours-check/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OT Hours Check">
+<meta name="twitter:description" content="Upload a timesheet CSV and audit regular vs overtime hours, missed breaks and rounding, per employee per week, before payroll runs.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "OT Hours Check", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Amir Hussain", "url": "https://aamirtechs.com"}, "url": "https://aamirtechs.github.io/ot-hours-check/"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--navy:#0b1f3a;--navy2:#122c50;--gold:#d4a72c;--ink:#16233a;--muted:#5a6a84;--line:#e3e9f2;--bg:#f6f8fb;--card:#ffffff}*{box-sizing:border-box}body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink)}header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:44px 20px 34px;text-align:center}header h1{font-family:Sora,sans-serif;font-size:2.2rem;margin:0 0 10px}header h1 span{color:var(--gold)}header p{max-width:720px;margin:0 auto 16px;opacity:.92}.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.stats span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px;font-size:.85rem}main{max-width:1020px;margin:0 auto;padding:24px 16px 40px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 6px 24px rgba(11,31,58,.06)}label{font-weight:700;display:block;margin:14px 0 6px}input[type=text],input[type=number],input[type=file],input[type=color],select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.btn-run{background:var(--gold);color:var(--navy);border:0;border-radius:10px;padding:12px 22px;cursor:pointer;font:inherit;font-weight:800;margin-top:16px}.btn-sec{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;font:inherit;margin:8px 6px 0 0}.privacy{color:var(--muted);font-size:.9rem;margin-top:10px}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.92rem}td,th{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}.bubble{max-width:78%;border:1px solid var(--line);border-radius:14px;padding:9px 12px;margin:8px 0;background:#fff}.bubble.right{margin-left:auto;background:#eef4ff}.bubble .who{font-size:.78rem;color:var(--muted);font-weight:700}section.features{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 24px;margin-top:20px}footer{background:var(--navy);color:#dbe4f0;text-align:center;padding:26px 16px;font-size:.92rem}footer a{color:var(--gold)}.msg{margin-top:12px;white-space:pre-wrap;font-weight:700}pre.out{white-space:pre-wrap;word-break:break-word;background:#f2f5fa;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.88rem}.pass{color:#137333;font-weight:700}.warn{color:#9a6b00;font-weight:700}.fail{color:#b3261e;font-weight:700}.swatch{display:inline-block;width:20px;height:20px;border:1px solid var(--line);border-radius:5px;vertical-align:middle;margin-right:6px}.socialcard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;background:#fff}.socialcard img{max-width:100%;border-radius:8px;margin-top:8px}</style>
+</head>
+<body>
+<header>
+<h1>OT Hours <span>Check</span></h1>
+<p>Upload a timesheet CSV and audit regular vs overtime hours, missed breaks and rounding, per employee per week, before payroll runs.</p>
+<div class="stats"><span>Free</span><span>100% in your browser</span><span>No sign-up</span></div>
+</header>
+<main>
+<div class="card">
+<label for="file">Timesheet CSV file</label>
+<input type="file" id="file" accept=".csv,text/csv">
+<label for="paste">Or paste CSV</label>
+<textarea id="paste" rows="6" placeholder="Employee,Date,Clock In,Clock Out,Break Minutes"></textarea>
+<button class="btn-sec" id="sample">Load sample timesheet</button>
+<div class="cols">
+<div><label for="weekly">Weekly threshold (hours)</label><input type="number" id="weekly" value="40" min="0" step="1"></div>
+<div><label for="daily">Daily overtime after (hours)</label><input type="number" id="daily" value="8" min="0" step="1"></div>
+<div><label for="dbl">Double time after (hours)</label><input type="number" id="dbl" value="12" min="0" step="1"></div>
+</div>
+<p class="privacy">Runs 100% in your browser. Your files never leave this device.</p>
+<button class="btn-run" id="run">Audit timesheet</button>
+<button class="btn-sec" id="expCsv" disabled>Export audit CSV</button>
+<div class="msg" id="msg" role="status"></div>
+<div id="results"></div>
+</div>
+<section class="features">
+<h2>How it works</h2>
+<ul>
+<li>Accepts clock in and clock out times (including overnight shifts) or a plain hours column, with break minutes deducted.</li>
+<li>Configurable rules: weekly threshold (40h by default), daily overtime after 8h and double time after 12h.</li>
+<li>Flags overlapping shifts, days over 16 hours, negative hours and long shifts with no break recorded.</li>
+<li>Builds a per employee, per week summary of regular, overtime and double time hours.</li>
+<li>Export the audit CSV for payroll review. Everything is computed locally on your device.</li>
+</ul>
+</section>
+</main>
+<footer>
+<p>Built by Amir Hussain, operations manager and founder of <a href="https://aamirtechs.com" target="_blank" rel="noopener">AamirTechs: operations, customer support and e-commerce services</a>.</p>
+<p><a href="https://github.com/aamirtechs" target="_blank" rel="noopener">More open source tools on GitHub</a></p>
+</footer>
+<script src="src/logic.js"></script>
+<script>
+const $=(id)=>document.getElementById(id);let lastSummary=[];
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+$("file").addEventListener("change",async(e)=>{if(e.target.files[0])$("paste").value=await e.target.files[0].text();});
+$("sample").addEventListener("click",()=>{let lines=["Employee,Date,Clock In,Clock Out,Break Minutes"];["2026-10-19","2026-10-20","2026-10-21","2026-10-22","2026-10-23"].forEach(d=>lines.push("Ana Example,"+d+",09:00,18:30,30"));lines.push("Ben Example,2026-10-19,08:00,21:00,0");lines.push("Ana Example,2026-10-19,12:00,13:00,0");$("paste").value=lines.join("\n");});
+$("run").addEventListener("click",()=>{
+ const rows=OtHoursCheck.parseCSVText($("paste").value);
+ if(!rows.length){$("msg").textContent="Paste or load a timesheet CSV first.";return;}
+ const cfg={weeklyThreshold:parseFloat($("weekly").value)||40,dailyOT:parseFloat($("daily").value)||8,doubleTime:parseFloat($("dbl").value)||12};
+ const audit=OtHoursCheck.auditTimesheet(rows,cfg);lastSummary=audit.summary;
+ let h="<h3>Per employee, per week</h3><table><tr><th>Employee</th><th>Week</th><th>Days</th><th>Total</th><th>Regular</th><th>Overtime</th><th>Double time</th><th>Flags</th></tr>"+audit.summary.map(g=>"<tr><td>"+esc(g.employee)+"</td><td>"+esc(g.week)+"</td><td>"+g.days+"</td><td>"+g.totalHours+"</td><td>"+g.regularHours+"</td><td>"+g.overtimeHours+"</td><td>"+g.doubleTimeHours+"</td><td>"+esc((g.flags||[]).join("; "))+"</td></tr>").join("")+"</table>";
+ h+="<h3>Flags: "+audit.flags.length+"</h3>"+(audit.flags.length?"<table><tr><th>Row</th><th>Employee</th><th>Date</th><th>Flag</th></tr>"+audit.flags.slice(0,80).map(f=>"<tr><td>"+f.row+"</td><td>"+esc(f.employee)+"</td><td>"+esc(f.date)+"</td><td>"+esc(f.flag)+"</td></tr>").join("")+"</table>":"<p>No overlaps, over-long days, negative hours or missed-break risks found.</p>");
+ $("results").innerHTML=h;$("expCsv").disabled=false;
+ $("msg").textContent="Audited "+audit.shifts.length+" shift rows for "+audit.summary.length+" employee-week(s). "+audit.flags.length+" flag(s) to review before payroll.";
+});
+$("expCsv").addEventListener("click",()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([OtHoursCheck.buildAuditCSV(lastSummary)],{type:"text/csv"}));a.download="ot-audit.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);});
+</script>
+</body>
+</html>
